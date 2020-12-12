@@ -9,9 +9,11 @@
       update_cache: yes
     when: ansible_distribution == "Ubuntu"
 
-  - name: installing apache2 package
+  - name: installing apache2 and php package for Ubuntu
     apt:
-      name: apache2
+      name
+        - apache2
+        - libapache2-mod-php
       state: latest
     when: ansible_distribution == "Ubuntu"
 
@@ -23,7 +25,9 @@
 #    when: ansible_distribution == "RedHat" and ansible_distribution_version == "8.3"
   - name: installing httpd package
     yum:
-      name: httpd
+      name:
+        - httpd
+        - php
       state: latest
     when: ansible_distribution in ["RedHat","Amazon"]
 
