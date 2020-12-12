@@ -36,6 +36,14 @@
       state: latest
     when: ansible_distribution in ["RedHat","Amazon"]
 
+  - name: start httpd for [centos]
+    tags: linux,apache,apache2,httpd
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+    when: ansible_distribution in ["RedHat", "Amazon"]
+
   - name: copying default html file for the site
     tags: ubuntu,linux,apache,apache2,httpd
     copy:
