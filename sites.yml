@@ -1,0 +1,46 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+  
+  - name: Installing updates for (APT) moduels
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Installing updates for (YUM) modules
+    tags: always
+    yum:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution in ["RedHat", "Amazon"]
+
+- hosts: web_servers
+  become: true
+  tasks:
+
+  - name: installing apache2 package for Ubuntu Servers
+    tags: ubuntu,apache,apache2,httpd
+    apt:
+      name: apache2
+      state: latest
+    when: ansible_distribution == "Ubuntu"
+
+  - name: installing httpd package for CentOS Servers
+    tags: linux,apache,apache2,httpd
+    yum:
+      name: httpd
+      state: latest
+    when: ansible_distribution in ["RedHat","Amazon"]
+
+  - name: copying default html file for the site
+    tags: ubuntu,linux,apache,apache2,httpd
+    copy:
+      src: default_site.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 644
