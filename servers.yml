@@ -5,12 +5,14 @@
   pre_tasks:
   
   - name: Installing updates for (APT) moduels
+    tags: always
     apt:
       upgrade: dist
       update_cache: yes
     when: ansible_distribution == "Ubuntu"
 
   - name: Installing updates for (YUM) modules
+    tags: always
     yum:
       update_only: yes
       update_cache: yes
@@ -21,6 +23,7 @@
   tasks:
 
   - name: installing apache2 package for Ubuntu Servers
+    tags: ubuntu,apache,apache2
     apt:
       name: apache2
       state: latest
@@ -28,6 +31,7 @@
 
 
   - name: installing httpd package for CentOS Servers
+    tags: linux,httpd
     yum:
       name: httpd
       state: latest
@@ -38,12 +42,14 @@
   tasks:
 
   - name: Installing mariadb package (Ubuntu)
+    tags: ubuntu,mariadb
     apt:
       name: mariadb-server
       state: latest
     when: ansible_distribution == "Ubuntu"
   
   - name: Installing mariadb package (CentOS)
+    tags: linux,mariadb
     yum:
       name: mariadb
       state: latest
@@ -54,6 +60,7 @@
   tasks:
 
   - name: Install samba package
+    tags: samba
     package:
       name: samba
       state: latest
