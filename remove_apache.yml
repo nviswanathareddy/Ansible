@@ -9,7 +9,7 @@
       update_cache: yes
     when: ansible_distribution == "Ubuntu"
 
-  - name: installing apache2 package
+  - name: removing apache2 package
     apt:
       name: apache2
       state: absent
@@ -21,7 +21,7 @@
     when: ansible_distribution in ["RedHat", "Amazon"]
 #    when: ansible_distribution == "RedHat"
 #    when: ansible_distribution == "RedHat" and ansible_distribution_version == "8.3"
-  - name: installing httpd package
+  - name: removing httpd package
     yum:
       name: httpd
       state: absent
