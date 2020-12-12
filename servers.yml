@@ -2,7 +2,7 @@
 
 - hosts: all
   become: true
-  tasks:
+  pre_tasks:
   
   - name: Installing updates for (APT) moduels
     apt:
@@ -32,3 +32,28 @@
       name: httpd
       state: latest
     when: ansible_distribution in ["RedHat","Amazon"]
+
+- hosts: db_servers
+  become: true
+  tasks:
+
+  - name: Installing mariadb package (Ubuntu)
+    apt:
+      name: mariadb-server
+      state: latest
+    when: ansible_distribution == "Ubuntu"
+  
+  - name: Installing mariadb package (CentOS)
+    yum:
+      name: mariadb
+      state: latest
+    when: ansible_distribution in ["RedHat", "Amazon"]
+
+- hosts: file_servers
+  become: true
+  tasks:
+
+  - name: Install samba package
+    package:
+      name: samba
+      state: latest
