@@ -22,3 +22,6 @@
 
 [file_servers]
 3.140.36.251
+
+[test_servers]
+ubuntu@3.139.195.41
