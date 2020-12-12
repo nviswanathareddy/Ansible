@@ -1,0 +1,34 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+  
+  - name: Installing updates for (APT) moduels
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Installing updates for (YUM) modules
+    yum:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution in ["RedHat", "Amazon"]
+
+- hosts: web_servers
+  become: true
+  tasks:
+
+  - name: installing apache2 package for Ubuntu Servers
+    apt:
+      name: apache2
+      state: latest
+    when: ansible_distribution == "Ubuntu"
+
+
+  - name: installing httpd package for CentOS Servers
+    yum:
+      name: httpd
+      state: latest
+    when: ansible_distribution in ["RedHat","Amazon"]
