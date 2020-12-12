@@ -4,27 +4,24 @@
   become: true
   tasks:
 
-  - name: updating repository index for apt
+  - name: removing apache2 and php packages for Ubuntu
     apt:
+      name
+        - apache2
+        - libapache2-mod-php
+      state: absent
       update_cache: yes
     when: ansible_distribution == "Ubuntu"
 
-  - name: removing apache2 package
-    apt:
-      name: apache2
-      state: absent
-    when: ansible_distribution == "Ubuntu"
-
-  - name: updating repository index for yum
+  - name: removing httpd and php packages for Linux
     yum:
+      name:
+        - httpd
+        - php
+      state: absent
       update_cache: yes
-    when: ansible_distribution in ["RedHat", "Amazon"]
-#    when: ansible_distribution == "RedHat"
-#    when: ansible_distribution == "RedHat" and ansible_distribution_version == "8.3"
-  - name: removing httpd package
-    yum:
-      name: httpd
-      state: absent
     when: ansible_distribution in ["RedHat","Amazon"]
 
 
+#    when: ansible_distribution == "RedHat" and ansible_distribution_version == "8.3"
+#    when: ansible_distribution == "RedHat"
