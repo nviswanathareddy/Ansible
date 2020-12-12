@@ -44,6 +44,22 @@
       enabled: yes
     when: ansible_distribution in ["RedHat", "Amazon"]
 
+  - name: change email for httpd server admin [CentOS]
+    tags: linux,apache,apache2,httpd
+    lineinfile:
+      path: /etc/httpd/conf/httpd.conf
+      regexp: '^ServerAdmin'
+      line: ServerAdmin vishwa@somewhere.net
+    when: ansible_distribution in ["RedHat", "Amazon"]
+    register: ServerAdmin
+
+  - name: restart httpd [centOS]
+    tags: linux,apache,apache2,httpd
+    service:
+      name: httpd
+      state: restarted
+    when: ServerAdmin.changed
+
   - name: copying default html file for the site
     tags: ubuntu,linux,apache,apache2,httpd
     copy:
