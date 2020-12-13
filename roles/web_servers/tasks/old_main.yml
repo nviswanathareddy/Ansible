@@ -1,0 +1,28 @@
+- name: Installing apache2 package (Ubuntu)
+  tags: ubuntu,apache,apache2
+  apt:
+    name: apache2
+    state: latest
+  when: ansible_distribution == "Ubuntu"
+
+
+- name: Installing httpd package (CentOS)
+  tags: linux,httpd
+  yum:
+    name: httpd
+    state: latest
+  when: ansible_distribution in ["RedHat","Amazon"]
+
+- name: Starting httpd service (CentOS)
+  tags: linux,httpd
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+  when: ansible_distribution in ["RedHat","Amazon"]
+
+- name: copying the default site into the Servers
+  tags: linux,ubunu,apache,apache2,httpd
+  copy:
+    src: default_site.html
+    dest: /var/www/html/index.html
